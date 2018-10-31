@@ -1,0 +1,59 @@
+-   config:
+        name: 购物车商品状态
+        parameters:
+            - token: ${P(token.csv)}
+            - base_url: ${P(url.csv)}
+        request:
+            base_url: $base_url
+            headers:
+                content-type: application/x-www-form-urlencoded
+        variables: []
+-   test:
+        name: case01.token为 $token, 验证该用户
+        request:
+            method: GET
+            url: /cart/index
+            headers:
+                token: $token
+        validate:
+        -   eq: [status_code, 200]
+        -   eq: [content.code, 200]
+        -   eq: [content.message, "操作成功"]
+-   test:
+        name: case02.token为空时, 验证响应结果是否与预期一致
+
+        request:
+            method: GET
+            url: /cart/index
+            headers:
+                token: ~
+        validate:
+        -   eq: [status_code, 200]
+        -   eq: [content.code, 404]
+        -   eq: [content.message, "无效Token"]
+-   test:
+        name: case03.正向获取，接口返回的响应是否与预期一致
+        request:
+            method: GET
+            url: /cart/index?user_id=5
+        validate:
+        -   eq: [status_code, 200]
+        -   eq: [content.code, 200]
+-   test:
+        name: case04. 购物车为空，接口返回是否与预期一致
+        request:
+            method: GET
+            url: /cart/index?user_id=5
+        validate:
+        -   eq: [status_code, 200]
+        -   eq: [content.code, 200]
+        -   eq: [content.data.num, 0]
+-   test:
+        name: case05. 验证购物车有过期商品，接口返回是否与预期一致
+        request:
+            method: GET
+            url: /cart/index?user_id=5
+        validate:
+        -   eq: [status_code, 200]
+        -   eq: [content.code, 200]
+        -   eq: [content.data.cartList.expire, ~]

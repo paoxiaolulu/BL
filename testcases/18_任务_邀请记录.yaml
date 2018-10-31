@@ -1,0 +1,33 @@
+-   config:
+        name: 邀请记录
+        parameters:
+            - token: ${P(token.csv)}
+            - base_url: ${P(url.csv)}
+        request:
+            base_url: $base_url
+            headers:
+                content-type: application/x-www-form-urlencoded
+        variables: []
+-   test:
+        name: case01.token为 $token, 验证该用户
+        request:
+            method: POST
+            url: /task/getInviteRecord
+            headers:
+                token: $token
+        validate:
+        -   eq: [status_code, 200]
+        -   eq: [content.code, 200]
+        -   eq: [content.message, ok]
+#        -   eq: [content.sign_data, {"sign_data":[{"status":0,"sign_time":"10.30","gold":0},{"status":0,"sign_time":"10.31","gold":0},{"status":0,"sign_time":"11.01","gold":0},{"status":0,"sign_time":"11.02","gold":0},{"status":0,"sign_time":"11.03","gold":0},{"status":0,"sign_time":"11.04","gold":0},{"status":0,"sign_time":"11.05","gold":0}],"sign_last":2,"sign_count":0},"task_data":[{"type":1,"times":0,"status":0,"add_gold":3},{"type":2,"times":0,"status":0,"add_gold":5},{"type":3,"times":0,"status":0,"add_gold":1},{"type":4,"times":0,"status":0,"add_gold":20"}}}]
+-   test:
+        name: case02.token为空时,验证响应结果是否与预期一致
+        request:
+            method: POST
+            url: /task/getInviteRecord
+            headers:
+                token: ~
+        validate:
+        -   eq: [status_code, 200]
+        -   eq: [content.code, 404]
+        -   eq: [content.message, "无效Token"]

@@ -1,0 +1,43 @@
+-   config:
+        name: 分类详情
+        parameters:
+            - token: ${P(token.csv)}
+            - base_url: ${P(url.csv)}
+        request:
+            base_url: $base_url
+            headers:
+                content-type: application/x-www-form-urlencoded
+        variables: []
+-   test:
+        name: case01.token为 $token, 验证该用户
+        request:
+            method: GET
+            url: goods/goodsinfo
+            headers:
+                token: $token
+        validate:
+        -   eq: [status_code, 200]
+        -   eq: [content.code, 400]
+        -   eq: [content.message, "goods_id值未传"]
+-   test:
+        name: case02.token为空时, 验证响应结果是否与预期一致
+
+        request:
+            method: GET
+            url: goods/goodsinfo
+            headers:
+                token: ~
+        validate:
+        -   eq: [status_code, 200]
+        -   eq: [content.code, 400]
+        -   eq: [content.message, "goods_id值未传"]
+
+-   test:
+        name: case03.正向验证商品详情接口是否与预期一致
+        request:
+            method: GET
+            url: /goods/goodsinfo?goods_id=230
+        validate:
+        -   eq: [status_code, 200]
+        -   eq: [content.code, 200]
+        -   eq: [content.message, ok]

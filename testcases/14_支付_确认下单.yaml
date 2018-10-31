@@ -1,0 +1,34 @@
+-   config:
+        name: 确认下单
+        parameters:
+            - token: ${P(token.csv)}
+            - base_url: ${P(url.csv)}
+        request:
+            base_url: $base_url
+            headers:
+                content-type: application/x-www-form-urlencoded
+        variables: []
+-   test:
+        name: case01.token为 $token, 验证该用户
+        request:
+            method: POST
+            url: /payment/confirmOrder
+            headers:
+                token: $token
+        validate:
+        -   eq: [status_code, 200]
+        -   eq: [content.code, 200]
+        -   eq: [content.message, "你的购物车没有选中商品"]
+-   test:
+        name: case02.token为空时, 验证响应结果是否与预期一致
+
+        request:
+            method: POST
+            url: /payment/confirmOrder
+            headers:
+                token: ~
+        validate:
+        -   eq: [status_code, 200]
+        -   eq: [content.code, 404]
+        -   eq: [content.message, "无效Token"]
+

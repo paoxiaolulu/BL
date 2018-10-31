@@ -1,0 +1,60 @@
+-   config:
+        name: 邀请码
+        parameters:
+            - token: ${P(token.csv)}
+            - base_url: ${P(url.csv)}
+        request:
+            base_url: $base_url
+            headers:
+                content-type: application/x-www-form-urlencoded
+        variables: []
+-   test:
+        name: case01.token为 $token, 验证该用户
+        request:
+            method: POST
+            url: /task/scanQrCode
+            headers:
+                token: $token
+        validate:
+        -   eq: [status_code, 200]
+        -   eq: [content.code, 400]
+        -   eq: [content.message, "master_token必传;find_id必传"]
+-   test:
+        name: case02.token为空时,验证响应结果是否与预期一致
+        request:
+            method: POST
+            url: /task/scanQrCode
+            headers:
+                token: ~
+        validate:
+        -   eq: [status_code, 200]
+        -   eq: [content.code, 400]
+        -   eq: [content.message, "无效Token"]
+-   test:
+        name: case03.正向获取,验证响应结果是否与预期一致
+        request:
+            data:
+                master_token: $token
+                find_id: 6
+            method: POST
+            url: /task/scanQrCode
+            headers:
+                token: $token
+        validate:
+        -   eq: [status_code, 200]
+        -   eq: [content.code, 200]
+        -   eq: [content.message, "ok"]
+-   test:
+        name: case03. 输入字符串,验证响应结果是否与预期一致
+        request:
+            data:
+                master_token: $token
+                find_id: h
+            method: POST
+            url: /task/scanQrCode
+            headers:
+                token: $token
+        validate:
+        -   eq: [status_code, 200]
+        -   eq: [content.code, 400]
+        -   eq: [content.message, "find_id必须是整数"]

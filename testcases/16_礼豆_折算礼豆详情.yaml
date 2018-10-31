@@ -1,0 +1,31 @@
+-   config:
+        name: 折礼豆详情
+        parameters:
+            - token: ${P(token.csv)}
+            - base_url: ${P(url.csv)}
+            - user_id-asset_id-status: ${P(user_id.csv)}
+
+        request:
+            base_url: $base_url
+            headers:
+                content-type: application/x-www-form-urlencoded
+        variables:
+            - user_id: $user_id
+
+-   test:
+        name: token为 $token, 验证不同参数组合得返回的结果是否与预期一致
+        request:
+            data:
+                user_id: $user_id
+                asset_id: $asset_id
+                status: $status
+
+            method: POST
+            url: /convert/beans
+            headers:
+                token: $token
+        validate:
+        -   eq: [status_code, 200]
+#        -   eq: [content.code, 400]
+#        -   eq: [content.message, "折金币流水不能为空"]
+

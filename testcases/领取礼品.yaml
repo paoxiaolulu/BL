@@ -1,0 +1,103 @@
+-   config:
+        name: 领取礼品
+        request:
+            base_url: 'http://47.100.182.135/api/v4'
+            headers:
+                content-type: application/x-www-form-urlencoded
+        variables: []
+-   test:
+        name: case01.正向获取，接口返回的响应是否与预期一致
+        request:
+            data:
+                master_user_id: 5
+                user_id: 8
+                asset_id: 1
+                form_id:
+                page:
+            method: POST
+            url: /asset/get
+        validate:
+        -   eq: [status_code, 200]
+        -   eq: [content.code, 200]
+        -   eq: [content.data.page, "1"]
+        -   eq: [content.data.limit, "2"]
+-   test:
+        name: case02. 缺keyword参数，验证接口返回的响应是否与预期一致
+        request:
+            data:
+                page: 1
+                limit: 2
+                # keyword: 花
+            method: POST
+            url: /goods/search
+        validate:
+        -   eq: [status_code, 200]
+        -   eq: [content.code, 400]
+        -   eq: [content.message, "关键字不能为空"]
+-   test:
+        name: case03. 缺page参数，验证接口返回的响应是否与预期一致
+        request:
+            data:
+                # page: 1
+                limit: 2
+                keyword: 花
+            method: POST
+            url: /goods/search
+        validate:
+        -   eq: [status_code, 200]
+        -   eq: [content.code, 200]
+        -   eq: [content.message, ok]
+        -   eq: [content.data.page, 1]      #默认返回一页
+-   test:
+        name: case04. 缺limit参数，验证接口返回的响应是否与预期一致
+        request:
+            data:
+                page: 1
+                # limit: 2
+                keyword: 花
+            method: POST
+            url: /goods/search
+        validate:
+        -   eq: [status_code, 200]
+        -   eq: [content.code, 200]
+        -   eq: [content.message, ok]
+        -   eq: [content.data.limit, 10]       # 默认返回10条数据
+-   test:
+        name: case05. page参数为字符串，验证接口返回的响应是否与预期一致
+        request:
+            data:
+                page: h
+                limit: 2
+                keyword: 花
+            method: POST
+            url: /goods/search
+        validate:
+        -   eq: [status_code, 200]
+        -   eq: [content.code, 400]
+-   test:
+        name: case06. limit参数为字符串，验证接口返回的响应是否与预期一致
+        request:
+            data:
+                page: 1
+                limit: k
+                keyword: 花
+            method: POST
+            url: /goods/search
+        validate:
+        -   eq: [status_code, 200]
+        -   eq: [content.code, 400]
+        -   eq: [content.message, "关键字不能为空"]
+
+-   test:
+        name: case07. keyword参数为字符串，验证接口返回的响应是否与预期一致
+        request:
+            data:
+                page: 1
+                limit: 3
+                keyword: iphone
+            method: POST
+            url: /goods/search
+        validate:
+        -   eq: [status_code, 200]
+        -   eq: [content.code, 400]
+        -   eq: [content.message, "关键字不能为空"]

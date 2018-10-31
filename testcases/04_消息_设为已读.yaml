@@ -1,0 +1,35 @@
+-   config:
+        name: 已读
+        parameters:
+            - token: ${P(token.csv)}
+            - base_url: ${P(url.csv)}
+        request:
+            base_url: $base_url
+            headers:
+                content-type: application/x-www-form-urlencoded
+        variables: []
+-   test:
+        name: case01.token为 $token, 验证该用户风消息数量是否与预期一致
+        request:
+            method: POST
+            url: /message/setRead
+            headers:
+                token: $token
+        validate:
+        -   eq: [status_code, 200]
+        -   eq: [content.code, 200]
+        -   eq: [content.message, "ok"]
+#        -   eq: [content.data.list, [{"new_num":0,"type":1,"title":"礼物互动","content":"亲，您送出的礼品「test20181025...」已被“\/”成功领取喽～","add_time":"2018-10-25 22:03"},{"new_num":0,"type":2,"title":"活动通知","content":"一大波活动即将抵达“战场”！","add_time":""},{"new_num":0,"type":3,"title":"物流助手","content":"很抱歉，您暂无物流信息哦~","add_time":""},{"new_num":0,"type":4,"title":"售后通知","content":"亲，您的礼品「test20181025」已下架，您可以通过客服申请退款操作哦～","add_time":"2018-10-26 09:23"}]]
+-   test:
+        name: case02.token为空时, 验证响应结果是否与预期一致
+
+        request:
+            method: POST
+            url: /message/setRead
+            headers:
+                token: ~
+        validate:
+        -   eq: [status_code, 200]
+        -   eq: [content.code, 404]
+        -   eq: [content.message, "无效Token"]
+        -   eq: [content.data, []]

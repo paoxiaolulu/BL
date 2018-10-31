@@ -1,0 +1,87 @@
+-   config:
+        name: 更改购物车商品数量
+        parameters:
+            - token: ${P(token.csv)}
+            - base_url: ${P(url.csv)}
+        request:
+            base_url: $base_url
+            headers:
+                content-type: application/x-www-form-urlencoded
+        variables: []
+-   test:
+        name: case01.token为 $token, 验证该用户
+        request:
+            method: GET
+            url: /cart/changeNum
+            headers:
+                token: $token
+        validate:
+        -   eq: [status_code, 200]
+        -   eq: [content.code, 400]
+        -   eq: [content.message, "cart_id值未传;goods_num值未传"]
+-   test:
+        name: case02.token为空时, 验证响应结果是否与预期一致
+
+        request:
+            method: GET
+            url: /cart/changeNum
+            headers:
+                token: ~
+        validate:
+        -   eq: [status_code, 200]
+        -   eq: [content.code, 400]
+        -   eq: [content.message, "cart_id值未传;goods_num值未传"]
+-   test:
+        name: case03.请求参数均为空，接口返回的响应是否与预期一致
+        request:
+            method: GET
+            url: /cart/changeNum
+        validate:
+        -   eq: [status_code, 200]
+        -   eq: [content.code, 400]
+        -   eq: [content.message, "cart_id值未传;goods_num值未传"]
+-   test:
+        name: case04.正向获取，接口返回的响应是否与预期一致
+        request:
+            method: GET
+            url: /cart/changeNum?goods_num=2&cart_id=39
+        validate:
+        -   eq: [status_code, 200]
+        -   eq: [content.code, 200]
+        -   eq: [content.message, "修改商品数量成功"]
+-   test:
+        name: case05.参数不匹配，接口返回的响应是否与预期一致
+        request:
+            method: GET
+            url: /cart/changeNum?goods_num=100&cart_id=39
+        validate:
+        -   eq: [status_code, 200]
+        -   eq: [content.code, 400]
+        -   eq: [content.message, "商品数量不能大于"]
+-   test:
+        name: case06.参数goods_num为字符串，接口返回的响应是否与预期一致
+        request:
+            method: GET
+            url: /cart/changeNum?goods_num=hh&cart_id=5
+        validate:
+        -   eq: [status_code, 200]
+        -   eq: [content.code, 400]
+        -   eq: [content.message, "goods_num值无效"]
+-   test:
+        name: case07.参数cart_id为字符串，接口返回的响应是否与预期一致
+        request:
+            method: GET
+            url: /cart/changeNum?goods_num=5&cart_id=kk
+        validate:
+        -   eq: [status_code, 200]
+        -   eq: [content.code, 400]
+        -   eq: [content.message, "cart_id值无效"]
+-   test:
+        name: case08. 不存在的商品参数，验证接口返回的响应是否与预期一致
+        request:
+            method: GET
+            url: /cart/changeNum?goods_num=1&cart_id=5
+        validate:
+        -   eq: [status_code, 200]
+        -   eq: [content.code, 400]
+        -   eq: [content.message, "商品数量不能大于"]

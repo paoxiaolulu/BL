@@ -1,0 +1,44 @@
+-   config:
+        name: 物流详情
+        parameters:
+            - token: ${P(token.csv)}
+            - base_url: ${P(url.csv)}
+        request:
+            base_url: $base_url
+            headers:
+                content-type: application/x-www-form-urlencoded
+        variables: []
+-   test:
+        name: case01.token为 $token, 验证该接口是否成功调起
+        request:
+            method: GET
+            url: /user/logisticsQuery
+            headers:
+                token: $token
+        validate:
+        -   eq: [status_code, 200]
+        -   eq: [content.code, 400]
+        -   eq: [content.message, "参数错误"]
+-   test:
+        name: case02.token为空时,验证响应结果是否与预期一致
+        request:
+            method: GET
+            url: /user/logisticsQuery
+            headers:
+                token: ~
+        validate:
+        -   eq: [status_code, 200]
+        -   eq: [content.code, 400]
+        -   eq: [content.message, "参数错误"]
+-   test:
+        name: case03.正向获取,验证该测试账户响应结果是否与预期一致
+        request:
+            data:
+                asset_id: 200
+            method: GET
+            url: /user/logisticsQuery
+            headers:
+                token: $token
+        validate:
+        -   eq: [status_code, 200]
+        -   eq: [content.code, 200]

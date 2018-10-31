@@ -1,0 +1,78 @@
+-   config:
+        name: 折礼豆
+        parameters:
+            - token: ${P(token.csv)}
+            - base_url: ${P(url.csv)}
+        request:
+            base_url: $base_url
+            headers:
+                content-type: application/x-www-form-urlencoded
+        variables: []
+-   test:
+        name: case01.token为 $token, 验证该用户
+        request:
+            method: POST
+            url: /convert/conversion
+            headers:
+                token: $token
+        validate:
+        -   eq: [status_code, 200]
+        -   eq: [content.code, 400]
+        -   eq: [content.message, "折金币流水不能为空"]
+-   test:
+        name: case02.token为空时, 验证响应结果是否与预期一致
+
+        request:
+            method: POST
+            url: /convert/conversion
+            headers:
+                token: ~
+        validate:
+        -   eq: [status_code, 200]
+        -   eq: [content.code, 404]
+        -   eq: [content.message, "无效Token"]
+-   test:
+        name: case03. 已经折过金豆, 验证响应结果是否与预期一致
+
+        request:
+            method: POST
+            data:
+                user_id: 5
+                computation_id: 489
+            url: /convert/conversion
+            headers:
+                token: $token
+        validate:
+        -   eq: [status_code, 200]
+        -   eq: [content.code, 400]
+        -   eq: [content.message, "您已经折豆过了"]
+-   test:
+        name: case04. 请求参数为空, 验证响应结果是否与预期一致
+
+        request:
+            method: POST
+            data:
+                user_id: 5
+                computation_id:
+            url: /convert/conversion
+            headers:
+                token: $token
+        validate:
+        -   eq: [status_code, 200]
+        -   eq: [content.code, 400]
+        -   eq: [content.message, "折金币流水不能为空"]
+-   test:
+        name: case05. 请求参数全部正确, 验证响应结果是否与预期一致
+
+        request:
+            method: POST
+            data:
+                user_id: 5
+                computation_id: 487
+            url: /convert/conversion
+            headers:
+                token: $token
+        validate:
+        -   eq: [status_code, 200]
+        -   eq: [content.code, 400]
+        -   eq: [content.message, "您已经折豆过了"]

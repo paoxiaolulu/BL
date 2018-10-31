@@ -1,0 +1,43 @@
+-   config:
+        name: 订单详情
+        parameters:
+            - token: ${P(token.csv)}
+            - base_url: ${P(url.csv)}
+        request:
+            base_url: $base_url
+            headers:
+                content-type: application/x-www-form-urlencoded
+        variables: []
+-   test:
+        name: case01.token为 $token, 验证该接口是否成功调起
+        request:
+            method: POST
+            url: /user/orderList
+            headers:
+                token: $token
+        validate:
+        -   eq: [status_code, 200]
+        -   eq: [content.code, 200]
+        -   eq: [content.message, "ok"]
+-   test:
+        name: case02.token为空时,验证响应结果是否与预期一致
+        request:
+            method: POST
+            url: /user/orderList
+            headers:
+                token: ~
+        validate:
+        -   eq: [status_code, 200]
+        -   eq: [content.code, 400]
+        -   eq: [content.message, "无效Token"]
+-   test:
+        name: case03.正向获取该用户的订单列表数量与商品是否与预期一致
+        request:
+            method: POST
+            url: /user/orderList
+            headers:
+                token: $token
+        validate:
+        -   eq: [status_code, 200]
+        -   eq: [content.code, 200]
+#        -   eq: [content.data.list.201810251426206535.goods, [{"goods_id":286,"order_sn":"201810251426206535","pay_status":2,"goods_num":1,"spec_key":"152","spec_key_name":"规格:混合坚果礼盒装","goods_name":"ileven 每日坚果","order_id":99,"price":"0.01","src":"\/public\/upload\/goods\/2018\/08-28\/090802c932c7bee006282b7ab320b918.jpg"}]]

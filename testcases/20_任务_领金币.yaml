@@ -1,0 +1,85 @@
+-   config:
+        name: 邀请码
+        parameters:
+            - token: ${P(token.csv)}
+            - base_url: ${P(url.csv)}
+        request:
+            base_url: $base_url
+            headers:
+                content-type: application/x-www-form-urlencoded
+        variables: []
+-   test:
+        name: case01.token为 $token, 验证该用户
+        request:
+            method: POST
+            url: /task/getGold
+            headers:
+                token: $token
+        validate:
+        -   eq: [status_code, 200]
+        -   eq: [content.code, 400]
+        -   eq: [content.message, "type值未传"]
+-   test:
+        name: case02.token为空时,验证响应结果是否与预期一致
+        request:
+            method: POST
+            url: /task/getGold
+            headers:
+                token: ~
+        validate:
+        -   eq: [status_code, 200]
+        -   eq: [content.code, 400]
+        -   eq: [content.message, "type值未传"]
+-   test:
+        name: case03.验证错误参数，是否返回错误说明
+        request:
+            data:
+                type: 0
+            method: POST
+            url: /task/getGold
+            headers:
+                token: $token
+        validate:
+        -   eq: [status_code, 200]
+        -   eq: [content.code, 400]
+        -   eq: [content.message, "非法值type"]
+#        -   eq: [content.data.invitation_id, 8]
+-   test:
+        name: case04.验证正向领金币是否返回成功字段
+        request:
+            data:
+                type: 1
+            method: POST
+            url: /task/getGold
+            headers:
+                token: $token
+        validate:
+        -   eq: [status_code, 200]
+        -   eq: [content.code, 400]
+        -   eq: [content.message, "还不能领取"]
+-   test:
+        name: case05.验证正向领金币是否返回成功字段
+        request:
+            data:
+                type: 2
+            method: POST
+            url: /task/getGold
+            headers:
+                token: $token
+        validate:
+        -   eq: [status_code, 200]
+        -   eq: [content.code, 400]
+        -   eq: [content.message, "还不能领取"]
+-   test:
+        name: case05.验证正向领金币是否返回成功字段
+        request:
+            data:
+                type: 3
+            method: POST
+            url: /task/getGold
+            headers:
+                token: $token
+        validate:
+        -   eq: [status_code, 200]
+        -   eq: [content.code, 400]
+        -   eq: [content.message, "还不能领取"]

@@ -1,0 +1,37 @@
+-   config:
+        name: 商品分类
+        parameters:
+            - token: ${P(token.csv)}
+            - base_url: ${P(url.csv)}
+        request:
+            base_url: $base_url
+            headers:
+                content-type: application/x-www-form-urlencoded
+        variables: []
+-   test:
+        name: case01.与分类下不存在的参数，接口返回的响应是否与预期一致
+        request:
+            method: GET
+            url: /goods/category?cart_id=230
+        validate:
+        -   eq: [status_code, 200]
+        -   eq: [content.code, 404]
+        -   eq: [content.message, "该分类下无相关商品"]
+-   test:
+        name: case02.参数为空，接口返回的响应是否与预期一致
+        request:
+            method: GET
+            url: /goods/category
+        validate:
+        -   eq: [status_code, 200]
+        -   eq: [content.code, 400]
+        -   eq: [content.message, "商品分类ID不能为空"]
+-   test:
+        name: case03.正向获取，接口返回的响应是否与预期一致
+        request:
+            method: GET
+            url: /goods/category?cart_id=588
+        validate:
+        -   eq: [status_code, 200]
+        -   eq: [content.code, 200]
+        -   eq: [content.message, ok]

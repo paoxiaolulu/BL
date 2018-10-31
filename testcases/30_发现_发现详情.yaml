@@ -1,0 +1,72 @@
+-   config:
+        name: 发现详情
+        parameters:
+            - token: ${P(token.csv)}
+            - base_url: ${P(url.csv)}
+        request:
+            base_url: $base_url
+            headers:
+                content-type: application/x-www-form-urlencoded
+        variables: []
+-   test:
+        name: case01.token为 $token, 验证该接口是否成功调起
+        request:
+            method: POST
+            url: /find/detail
+            headers:
+                token: $token
+        validate:
+        -   eq: [status_code, 200]
+        -   eq: [content.code, 400]
+        -   eq: [content.message, "参数不能为空"]
+-   test:
+        name: case02.token为空时,验证响应结果是否与预期一致
+        request:
+            method: POST
+            url: /find/detail
+            headers:
+                token: ~
+        validate:
+        -   eq: [status_code, 200]
+        -   eq: [content.code, 400]
+        -   eq: [content.message, "参数不能为空"]
+-   test:
+        name: case03.token为空时,验证响应结果是否与预期一致
+        request:
+            data:
+                find_id: 6
+            method: POST
+            url: /find/detail
+            headers:
+                token: ~
+        validate:
+        -   eq: [status_code, 200]
+        -   eq: [content.code, 404]
+        -   eq: [content.message, "无效Token"]
+-   test:
+        name: case04.正向获取文章是否成功响应文章详情
+        request:
+            data:
+                find_id: 6
+            method: POST
+            url: /find/detail
+            headers:
+                token: $token
+        validate:
+        -   eq: [status_code, 200]
+        -   eq: [content.code, 200]
+        -   eq: [content.message, "ok"]
+
+-   test:
+        name: case05.不存在的参数id，验证接口返回是否与预期一致
+        request:
+            data:
+                find_id: 8
+            method: POST
+            url: /find/detail
+            headers:
+                token: $token
+        validate:
+        -   eq: [status_code, 200]
+        -   eq: [content.code, 400]
+        -   eq: [content.message, "详情不存在"]

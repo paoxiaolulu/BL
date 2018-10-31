@@ -1,0 +1,28 @@
+-   config:
+        name: 商品搜索
+        parameters:
+            - token: ${P(token.csv)}
+            - base_url: ${P(url.csv)}
+            - page: [~, "h", "2"]
+            - limit: [~, "k", "2"]
+            - keyword: [~, "kl", "花生"]
+        request:
+            base_url: $base_url
+            headers:
+                content-type: application/x-www-form-urlencoded
+        variables: [
+            {"keyword": $keyword}
+        ]
+-   test:
+        name: 请求参数为 $page&$limit&$keyword，验证返回内容与预期结果是否一致
+        request:
+            data:
+                page: $page
+                limit: $limit
+                keyword: $keyword
+            method: POST
+            url: /goods/search
+        validate:
+        -   eq: [status_code, 200]
+        #-   eq: [content.code, 400]
+        #-   eq: [content.message, ok]

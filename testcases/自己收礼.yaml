@@ -1,0 +1,16 @@
+-   config:
+        name: 自己收礼
+        request:
+            base_url: 'https://ceshilanxiongdianshang.billionss.com/api/v4'
+            headers:
+                content-type: application/x-www-form-urlencoded
+        variables: []
+-   test:
+        name: case01.正向获取首页信息
+        request:
+            method: GET
+            url: /asset/receive?user_id=5&address=12345    #1=HP多功能打印机
+        validate:
+        -   eq: [status_code, 200]
+        -   eq: [content.code, 200]
+        -   eq: [content.message, ok]
