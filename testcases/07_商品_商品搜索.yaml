@@ -5,7 +5,7 @@
             - base_url: ${P(url.csv)}
             - page: [~, "h", "2"]
             - limit: [~, "k", "2"]
-            - keyword: [~, "kl", "花生"]
+            - keyword: [~, "😂", "花生"]
         request:
             base_url: $base_url
             headers:
