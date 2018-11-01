@@ -1,5 +1,5 @@
 -   config:
-        name: 我的礼豆数量
+        name: 首页_排行榜
         parameters:
             - token: ${P(token.csv)}
             - base_url: ${P(url.csv)}
@@ -9,35 +9,37 @@
                 content-type: application/x-www-form-urlencoded
         variables: []
 -   test:
-        name: case01.token为 $token, 验证该接口是否成功调起
+        name: case01.token为 $token, 请求参数缺失，验证该接口是否成功调起
         request:
             method: GET
-            url: /user/getGiftBean
+            url: /main/rank
             headers:
                 token: $token
         validate:
         -   eq: [status_code, 200]
-        -   eq: [content.code, 200]
-        -   eq: [content.message, "ok"]
+        -   eq: [content.code, 400]
+        -   eq: [content.message, "分类值未传;类型值未传;页码值未传;分页大小值未传"]
 -   test:
-        name: case02.token为空时,验证响应结果是否与预期一致
+        name: case02.token为空时,请求参数缺失，验证响应结果是否与预期一致
         request:
             method: GET
-            url: /user/getGiftBean
+            url: /main/rank
             headers:
                 token: ~
         validate:
         -   eq: [status_code, 200]
-        -   eq: [content.code, 404]
-        -   eq: [content.message, "无效Token"]
+        -   eq: [content.code, 400]
+        -   eq: [content.message, "分类值未传;类型值未传;页码值未传;分页大小值未传"]
+
+
 -   test:
-        name: case03.正向获取,验证该测试账户响应结果是否与预期一致
+        name: case03.正向获取,默认593
         request:
             method: GET
-            url: /user/getGiftBean
+            url: /main/rank
             headers:
                 token: $token
         validate:
         -   eq: [status_code, 200]
-        -   eq: [content.code, 200]
-
+#        -   eq: [content.code, 200]
+#        -   eq: [content.message, 'ok']

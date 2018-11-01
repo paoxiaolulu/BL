@@ -1,0 +1,117 @@
+-   config:
+        name: 首页_为你推荐
+        parameters:
+            - token: ${P(token.csv)}
+            - base_url: ${P(url.csv)}
+        request:
+            base_url: $base_url
+            headers:
+                content-type: application/x-www-form-urlencoded
+        variables: []
+-   test:
+        name: case01.token为 $token, 请求参数缺失，验证该接口是否成功调起
+        request:
+            method: POST
+            url: asset/updateType
+            headers:
+                token: $token
+        validate:
+        -   eq: [status_code, 200]
+        -   eq: [content.code, 400]
+        -   eq: [content.message, "platform值未传;package_sum值未传;packet_num值未传;blessings参数不存在;attribute参数不能为空"]
+-   test:
+        name: case02.token为空时,请求参数缺失，验证响应结果是否与预期一致
+        request:
+            method: POST
+            url: asset/updateType
+            headers:
+                token: ~
+        validate:
+        -   eq: [status_code, 200]
+        -   eq: [content.code, 400]
+        -   eq: [content.message, "platform值未传;package_sum值未传;packet_num值未传;blessings参数不存在;attribute参数不能为空"]
+-   test:
+        name: case03.正向获取
+        request:
+            data:
+                platform: 1
+                packet_num: 1
+                blessings: 生日快乐
+                attribute: 1
+                package_sum: 1
+            method: POST
+            url: asset/updateType
+            headers:
+                token: $token
+        validate:
+        -   eq: [status_code, 200]
+        -   eq: [content.code, 200]
+        -   eq: [content.message, 'ok']
+-   test:
+        name: case04.输入字符串
+        request:
+            data:
+                platform: 1
+                packet_num: 1
+                blessings: 生日快乐
+                attribute: 1
+                package_sum: h
+            method: POST
+            url: asset/updateType
+            headers:
+                token: $token
+        validate:
+        -   eq: [status_code, 200]
+        -   eq: [content.code, 400]
+        -   eq: [content.message, 'package_sum值大于零的整数']
+-   test:
+        name: case05.输入字符串
+        request:
+            data:
+                platform: 1
+                packet_num: h
+                blessings: 生日快乐
+                attribute: 1
+                package_sum: 1
+            method: POST
+            url: asset/updateType
+            headers:
+                token: $token
+        validate:
+        -   eq: [status_code, 200]
+        -   eq: [content.code, 400]
+        -   eq: [content.message, 'packet_num值大于零的整数']
+-   test:
+        name: case05.输入字符串
+        request:
+            data:
+                platform: h
+                packet_num: 1
+                blessings: 生日快乐
+                attribute: 1
+                package_sum: 1
+            method: POST
+            url: asset/updateType
+            headers:
+                token: $token
+        validate:
+        -   eq: [status_code, 200]
+        -   eq: [content.code, 400]
+        -   eq: [content.message, 'platform值非法']
+-   test:
+        name: case06.输入字符串
+        request:
+            data:
+                platform: 1
+                packet_num: 1
+                blessings: ~
+                attribute: 2
+                package_sum: 1
+            method: POST
+            url: asset/updateType
+            headers:
+                token: $token
+        validate:
+        -   eq: [status_code, 200]
+        -   eq: [content.code, 400]
+        -   eq: [content.message, 'blessings参数不存在']

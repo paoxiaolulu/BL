@@ -1,0 +1,48 @@
+-   config:
+        name: 礼品转增_删除
+        parameters:
+            - token: ${P(token.csv)}
+            - base_url: ${P(url.csv)}
+        request:
+            base_url: $base_url
+            headers:
+                content-type: application/x-www-form-urlencoded
+        variables: []
+-   test:
+        name: case01.token为 $token, 请求参数缺失，验证该接口是否成功调起
+        request:
+            method: POST
+            url: /user/transfer
+            headers:
+                token: $token
+        validate:
+        -   eq: [status_code, 200]
+        -   eq: [content.code, 400]
+        -   eq: [content.message, "package_id值未传;type值未传"]
+-   test:
+        name: case02.token为空时,请求参数缺失，验证响应结果是否与预期一致
+        request:
+            method: POST
+            url: /user/transfer
+            headers:
+                token: ~
+        validate:
+        -   eq: [status_code, 200]
+        -   eq: [content.code, 400]
+        -   eq: [content.message, "package_id值未传;type值未传"]
+
+
+-   test:
+        name: case03.正向获取
+        request:
+            data:
+                package_id: 2
+                type: 1
+            method: POST
+            url: /user/transfer
+            headers:
+                token: $token
+        validate:
+        -   eq: [status_code, 200]
+        -   eq: [content.code, 400]
+        -   eq: [content.message, '删除失败']
