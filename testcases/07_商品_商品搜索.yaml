@@ -1,5 +1,5 @@
 -   config:
-        name: 商品搜索
+        name: 07_商品_商品搜索
         parameters:
             - token: ${P(token.csv)}
             - base_url: ${P(url.csv)}

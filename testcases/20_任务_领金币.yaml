@@ -1,5 +1,5 @@
 -   config:
-        name: 邀请码
+        name: 20_任务_领金币
         parameters:
             - token: ${P(token.csv)}
             - base_url: ${P(url.csv)}

@@ -1,5 +1,5 @@
 -   config:
-        name: 已读
+        name: 04_消息_设为已读
         parameters:
             - token: ${P(token.csv)}
             - base_url: ${P(url.csv)}
@@ -30,6 +30,6 @@
                 token: ~
         validate:
         -   eq: [status_code, 200]
-        -   eq: [content.code, 404]
-        -   eq: [content.message, "无效Token"]
+        -   eq: [content.code, 200]
+        -   eq: [content.message, "ok"]   # 该接口不需要token
         -   eq: [content.data, []]

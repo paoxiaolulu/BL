@@ -1,5 +1,5 @@
 -   config:
-        name: 折礼豆
+        name: 15_礼豆_折金币
         parameters:
             - token: ${P(token.csv)}
             - base_url: ${P(url.csv)}
@@ -29,7 +29,7 @@
                 token: ~
         validate:
         -   eq: [status_code, 200]
-        -   eq: [content.code, 404]
+        -   eq: [content.code, 40008]
         -   eq: [content.message, "无效Token"]
 -   test:
         name: case03. 已经折过金豆, 验证响应结果是否与预期一致

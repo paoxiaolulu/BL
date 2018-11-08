@@ -1,5 +1,5 @@
 -   config:
-        name: 订单详情
+        name: 27_订单_我的订单列表
         parameters:
             - token: ${P(token.csv)}
             - base_url: ${P(url.csv)}
@@ -28,7 +28,7 @@
                 token: ~
         validate:
         -   eq: [status_code, 200]
-        -   eq: [content.code, 400]
+        -   eq: [content.code, 40008]
         -   eq: [content.message, "无效Token"]
 -   test:
         name: case03.正向获取该用户的订单列表数量与商品是否与预期一致

@@ -1,5 +1,5 @@
 -   config:
-        name: 我的礼豆数量
+        name: 24_用户_我的礼豆数量
         parameters:
             - token: ${P(token.csv)}
             - base_url: ${P(url.csv)}
@@ -11,7 +11,7 @@
 -   test:
         name: case01.token为 $token, 验证该接口是否成功调起
         request:
-            method: GET
+            method: POST
             url: /user/getGiftBean
             headers:
                 token: $token
@@ -22,18 +22,18 @@
 -   test:
         name: case02.token为空时,验证响应结果是否与预期一致
         request:
-            method: GET
+            method: POST
             url: /user/getGiftBean
             headers:
                 token: ~
         validate:
         -   eq: [status_code, 200]
-        -   eq: [content.code, 404]
+        -   eq: [content.code, 40008]
         -   eq: [content.message, "无效Token"]
 -   test:
         name: case03.正向获取,验证该测试账户响应结果是否与预期一致
         request:
-            method: GET
+            method: POST
             url: /user/getGiftBean
             headers:
                 token: $token

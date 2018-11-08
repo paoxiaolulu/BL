@@ -1,5 +1,5 @@
 -   config:
-        name: 加入购物车
+        name: 12_购物车_加入购物车
         parameters:
             - token: ${P(token.csv)}
             - base_url: ${P(url.csv)}

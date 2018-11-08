@@ -1,5 +1,5 @@
 -   config:
-        name: 物流详情
+        name: 25_用户_物流查询
         parameters:
             - token: ${P(token.csv)}
             - base_url: ${P(url.csv)}
@@ -18,7 +18,7 @@
         validate:
         -   eq: [status_code, 200]
         -   eq: [content.code, 400]
-        -   eq: [content.message, "参数错误"]
+        -   eq: [content.message, "还未发货"]
 -   test:
         name: case02.token为空时,验证响应结果是否与预期一致
         request:
@@ -28,8 +28,8 @@
                 token: ~
         validate:
         -   eq: [status_code, 200]
-        -   eq: [content.code, 400]
-        -   eq: [content.message, "参数错误"]
+        -   eq: [content.code, 40008]
+        -   eq: [content.message, "无效Token"]
 -   test:
         name: case03.正向获取,验证该测试账户响应结果是否与预期一致
         request:

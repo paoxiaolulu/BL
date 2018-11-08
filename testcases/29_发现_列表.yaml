@@ -1,5 +1,5 @@
 -   config:
-        name: 物流详情
+        name: 29_发现_列表
         parameters:
             - token: ${P(token.csv)}
             - base_url: ${P(url.csv)}
@@ -28,5 +28,5 @@
                 token: ~
         validate:
         -   eq: [status_code, 200]
-        -   eq: [content.code, 400]
-        -   eq: [content.message, "无效Token"]
+        -   eq: [content.code, 200]
+        -   eq: [content.message, "ok"]   #不需要token和其他参数

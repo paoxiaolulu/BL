@@ -1,5 +1,5 @@
 -   config:
-        name: 发现详情
+        name: 30_发现_发现想起
         parameters:
             - token: ${P(token.csv)}
             - base_url: ${P(url.csv)}
@@ -41,7 +41,7 @@
                 token: ~
         validate:
         -   eq: [status_code, 200]
-        -   eq: [content.code, 404]
+        -   eq: [content.code, 40008]
         -   eq: [content.message, "无效Token"]
 -   test:
         name: case04.正向获取文章是否成功响应文章详情
@@ -68,5 +68,5 @@
                 token: $token
         validate:
         -   eq: [status_code, 200]
-        -   eq: [content.code, 400]
-        -   eq: [content.message, "详情不存在"]
+        -   eq: [content.code, 200]
+        -   eq: [content.message, "ok"]   # 该接口不需要token

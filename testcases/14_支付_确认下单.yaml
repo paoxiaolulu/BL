@@ -1,5 +1,5 @@
 -   config:
-        name: 确认下单
+        name: 14_支付_确认下单
         parameters:
             - token: ${P(token.csv)}
             - base_url: ${P(url.csv)}
@@ -17,7 +17,7 @@
                 token: $token
         validate:
         -   eq: [status_code, 200]
-        -   eq: [content.code, 200]
+        -   eq: [content.code, 404]
         -   eq: [content.message, "你的购物车没有选中商品"]
 -   test:
         name: case02.token为空时, 验证响应结果是否与预期一致
@@ -29,6 +29,6 @@
                 token: ~
         validate:
         -   eq: [status_code, 200]
-        -   eq: [content.code, 404]
+        -   eq: [content.code, 40008]
         -   eq: [content.message, "无效Token"]
 

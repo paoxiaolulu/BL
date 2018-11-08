@@ -1,5 +1,5 @@
 -   config:
-        name: 订单详情
+        name: 28_订单_我的订单详情
         parameters:
             - token: ${P(token.csv)}
             - base_url: ${P(url.csv)}
@@ -18,23 +18,27 @@
                 token: $token
         validate:
         -   eq: [status_code, 200]
-        -   eq: [content.code, 200]
-        -   eq: [content.message, "ok"]
+        -   eq: [content.code, 400]
+        -   eq: [content.message, "order_id不能为空"]
 -   test:
-        name: case02.token为空时,验证响应结果是否与预期一致
+        name: case02.有参数，但token为空时,验证响应结果是否与预期一致
         request:
             method: POST
+            data:
+              order_id: 361
             url: /user/orderDetail
             headers:
                 token: ~
         validate:
         -   eq: [status_code, 200]
-        -   eq: [content.code, 400]
-        -   eq: [content.message, "无效Token"]
+        -   eq: [content.code, 200]
+        -   eq: [content.message, "ok"]  # 订单详情不需要token
 -   test:
         name: case03.正向获取该用户的订单列表数量与商品是否与预期一致
         request:
             method: POST
+            data:
+              order_id: 361
             url: /user/orderDetail
             headers:
                 token: $token

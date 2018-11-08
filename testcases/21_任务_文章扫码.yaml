@@ -1,5 +1,5 @@
 -   config:
-        name: 邀请码
+        name: 21_任务_文章扫码
         parameters:
             - token: ${P(token.csv)}
             - base_url: ${P(url.csv)}
@@ -18,7 +18,7 @@
         validate:
         -   eq: [status_code, 200]
         -   eq: [content.code, 400]
-        -   eq: [content.message, "master_token必传;find_id必传"]
+        -   eq: [content.message, "invitation_id必传;find_id必传"]
 -   test:
         name: case02.token为空时,验证响应结果是否与预期一致
         request:
@@ -28,13 +28,13 @@
                 token: ~
         validate:
         -   eq: [status_code, 200]
-        -   eq: [content.code, 400]
+        -   eq: [content.code, 40008]
         -   eq: [content.message, "无效Token"]
 -   test:
         name: case03.正向获取,验证响应结果是否与预期一致
         request:
             data:
-                master_token: $token
+                invitation_id: 8
                 find_id: 6
             method: POST
             url: /task/scanQrCode
@@ -57,4 +57,4 @@
         validate:
         -   eq: [status_code, 200]
         -   eq: [content.code, 400]
-        -   eq: [content.message, "find_id必须是整数"]
+        -   eq: [content.message, "invitation_id必传;find_id必须是整数"]

@@ -1,5 +1,5 @@
 -   config:
-        name: 折礼豆详情
+        name: 16_礼豆_折金币详情
         parameters:
             - token: ${P(token.csv)}
             - base_url: ${P(url.csv)}

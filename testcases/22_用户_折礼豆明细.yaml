@@ -1,5 +1,5 @@
 -   config:
-        name: 折礼豆明细
+        name: 22_用户_折金币明细
         parameters:
             - token: ${P(token.csv)}
             - base_url: ${P(url.csv)}
@@ -28,7 +28,7 @@
                 token: ~
         validate:
         -   eq: [status_code, 200]
-        -   eq: [content.code, 400]
+        -   eq: [content.code, 40008]
         -   eq: [content.message, "无效Token"]
 -   test:
         name: case03.正向获取,验证响应结果是否与预期一致

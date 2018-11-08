@@ -1,5 +1,5 @@
 -   config:
-        name: 购物车商品状态
+        name: 13_购物车_我的购物车
         parameters:
             - token: ${P(token.csv)}
             - base_url: ${P(url.csv)}
@@ -29,7 +29,7 @@
                 token: ~
         validate:
         -   eq: [status_code, 200]
-        -   eq: [content.code, 404]
+        -   eq: [content.code, 40008]
         -   eq: [content.message, "无效Token"]
 -   test:
         name: case03.正向获取，接口返回的响应是否与预期一致

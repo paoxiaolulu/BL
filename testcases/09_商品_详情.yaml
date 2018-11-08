@@ -1,5 +1,5 @@
 -   config:
-        name: 分类详情
+        name: 09_商品_详情
         parameters:
             - token: ${P(token.csv)}
             - base_url: ${P(url.csv)}
@@ -29,14 +29,16 @@
                 token: ~
         validate:
         -   eq: [status_code, 200]
-        -   eq: [content.code, 400]
-        -   eq: [content.message, "goods_id值未传"]
+        -   eq: [content.code, 40008]
+        -   eq: [content.message, "无效Token"]
 
 -   test:
         name: case03.正向验证商品详情接口是否与预期一致
         request:
             method: GET
             url: /goods/goodsinfo?goods_id=230
+            headers:
+                token: $token
         validate:
         -   eq: [status_code, 200]
         -   eq: [content.code, 200]

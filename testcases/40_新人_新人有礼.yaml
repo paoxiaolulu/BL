@@ -1,37 +1,44 @@
 -   config:
-        name: 06_首页_查看更多
+        name: 40_新人_新人有礼
         parameters:
             - token: ${P(token.csv)}
             - base_url: ${P(url.csv)}
         request:
             base_url: $base_url
             headers:
+                token: $token
                 content-type: application/x-www-form-urlencoded
         variables: []
 -   test:
-        name: case01.热销榜单返回的接口是否与预期一致
+        name: case01.正向获取首页信息
         request:
             method: GET
-            url: /main/more?floor_id=53
+            url: /main/new
         validate:
         -   eq: [status_code, 200]
         -   eq: [content.code, 200]
         -   eq: [content.message, ok]
 -   test:
-        name: case02.新品首发返回的接口是否与预期一致
+        name: case02.请求参数有误
         request:
             method: GET
-            url: /main/more?floor_id=54
+            params:
+                page: '93'
+                limit: h
+            url: /main/new
         validate:
         -   eq: [status_code, 200]
-        -   eq: [content.code, 200]
-        -   eq: [content.message, ok]
+        -   eq: [content.code, 400]
+#        -   eq: [content.message, ok]
 -   test:
-        name: case03.优品推荐返回的接口是否与预期一致
+        name: case03.请求参数有误
         request:
             method: GET
-            url: /main/more?floor_id=55
+            params:
+                page: h
+                limit: h
+            url: /main/new
         validate:
         -   eq: [status_code, 200]
-        -   eq: [content.code, 200]
-        -   eq: [content.message, ok]
+        -   eq: [content.code, 400]
+#        -   eq: [content.message, ok]

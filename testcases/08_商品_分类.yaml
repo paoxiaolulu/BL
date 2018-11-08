@@ -1,5 +1,5 @@
 -   config:
-        name: 商品分类
+        name: 08_商品_分类
         parameters:
             - token: ${P(token.csv)}
             - base_url: ${P(url.csv)}

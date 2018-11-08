@@ -1,5 +1,5 @@
 -   config:
-        name: 首页_排行榜
+        name: 36_首页_排行榜
         parameters:
             - token: ${P(token.csv)}
             - base_url: ${P(url.csv)}

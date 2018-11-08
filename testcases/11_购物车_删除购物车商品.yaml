@@ -1,5 +1,5 @@
 -   config:
-        name: 删除购物车商品数量
+        name: 11_购物车_删除购物车商品
         parameters:
             - token: ${P(token.csv)}
             - base_url: ${P(url.csv)}

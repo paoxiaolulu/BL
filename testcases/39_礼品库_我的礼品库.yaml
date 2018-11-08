@@ -1,8 +1,12 @@
 -   config:
-        name: 我的礼品库
+        name: 39_礼品库_我的礼品库
+        parameters:
+            - token: ${P(token.csv)}
+            - base_url: ${P(url.csv)}
         request:
-            base_url: 'https://ceshilanxiongdianshang.billionss.com/api/v4'
+            base_url: $base_url
             headers:
+                token: $token
                 content-type: application/x-www-form-urlencoded
         variables: []
 -   test:

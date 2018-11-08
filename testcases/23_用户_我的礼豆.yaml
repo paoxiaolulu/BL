@@ -1,5 +1,5 @@
 -   config:
-        name: 我的礼豆详情
+        name: 23_用户_我的金币
         parameters:
             - token: ${P(token.csv)}
             - base_url: ${P(url.csv)}
@@ -17,51 +17,47 @@
                 token: $token
         validate:
         -   eq: [status_code, 200]
-        -   eq: [content.code, 200]
-        -   eq: [content.message, "ok"]
+        -   eq: [content.code, 400]
+        -   eq: [content.message, "type值未传"]
 -   test:
-        name: case02.token为空时,验证响应结果是否与预期一致
+        name: case02.token为空时,但请求参数存在，验证响应结果是否与预期一致
         request:
             method: GET
-            url: /user/myBean
+            url: /user/myBean?type=2
             headers:
                 token: ~
         validate:
         -   eq: [status_code, 200]
-        -   eq: [content.code, 404]
+        -   eq: [content.code, 40008]
         -   eq: [content.message, "无效Token"]
 -   test:
         name: case03.正向获取,验证响应结果是否与预期一致
         request:
             method: GET
-            url: /user/myBean
+            url: /user/myBean?type=3
             headers:
                 token: $token
         validate:
         -   eq: [status_code, 200]
         -   eq: [content.code, 200]
+
 -   test:
-        name: case01.我的礼豆正向获取
+        name: case04.请求参数不存在
         request:
             method: GET
-            url: /user/myBean
-        validate:
-        -   eq: [status_code, 200]
-        -   eq: [content.message, ok]
--   test:
-        name: case02.参数为空
-        request:
-            method: GET
-            url: /user/myBean
+            url: /user/myBean?type=4
+            headers:
+                token: $token
         validate:
         -   eq: [status_code, 200]
         -   eq: [content.code, 400]
-        -   eq: [content.message, "ok"]
 -   test:
-        name: case03.参数为特殊字符串
+        name: case05.请求参数为字符串
         request:
             method: GET
-            url: /user/myBean?user_id=hh
+            url: /user/myBean?type=hh
+            headers:
+                token: $token
         validate:
         -   eq: [status_code, 200]
         -   eq: [content.code, 400]

@@ -1,5 +1,5 @@
 -   config:
-        name: 邀请记录
+        name: 18_任务_邀请记录
         parameters:
             - token: ${P(token.csv)}
             - base_url: ${P(url.csv)}
@@ -29,5 +29,5 @@
                 token: ~
         validate:
         -   eq: [status_code, 200]
-        -   eq: [content.code, 404]
+        -   eq: [content.code, 40008]
         -   eq: [content.message, "无效Token"]
