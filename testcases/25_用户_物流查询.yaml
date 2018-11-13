@@ -28,8 +28,8 @@
                 token: ~
         validate:
         -   eq: [status_code, 200]
-        -   eq: [content.code, 40008]
-        -   eq: [content.message, "无效Token"]
+        -   eq: [content.code, 400]
+        -   eq: [content.message, "还未发货"]
 -   test:
         name: case03.正向获取,验证该测试账户响应结果是否与预期一致
         request:
@@ -41,4 +41,4 @@
                 token: $token
         validate:
         -   eq: [status_code, 200]
-        -   eq: [content.code, 200]
+        -   eq: [content.code, 400]

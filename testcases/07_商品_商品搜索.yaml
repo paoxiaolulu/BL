@@ -3,30 +3,25 @@
         parameters:
             - token: ${P(token.csv)}
             - base_url: ${P(url.csv)}
-#            - page: [~, "h", "2"]
-#            - limit: [~, "k", "2"]
-#            - keyword: [~, "h", "机"]
+            - page: [~, "h", ";"]
+            - limit: [~, "k", ";"]
+            - keyword: [~, "/", ";"]
         request:
             base_url: $base_url
             headers:
                 token: $token
                 content-type: application/x-www-form-urlencoded
         variables: []
-        output:
-        - data.searchList.cat_id
 -   test:
-        name: 1.正向获取
+        name: 当请求参数page=$page,limit=$limit,keyword=$keyword,验证接口返回是否与预期结果一致
         request:
             data:
-                page:
-                limit:
-                keyword: 机
+                page: $page
+                limit: $limit
+                keyword: $keyword
             method: POST
             url: /goods/search
-        extract:
-            - data.searchList.cat_id: content.data.searchList.cat_id
         validate:
-            - eq: [status_code, 200]
-        #-   eq: [content.code, 400]
-        #-   eq: [content.message, ok]
+        -   eq: [status_code, 200]
+#        -   eq: [content.code, 400]
 

@@ -9,7 +9,7 @@
                 content-type: application/x-www-form-urlencoded
         variables: []
 -   test:
-        name: case01.token为 $token, 验证该用户是否成功返回消息数为0
+        name: case01.token为 $token, 验证该用户是否成功返回消息数
         request:
             method: POST
             url: /message/GetNewNum
@@ -19,7 +19,7 @@
         -   eq: [status_code, 200]
         -   eq: [content.code, 200]
         -   eq: [content.message, "ok"]
-        -   eq: [content.data.num, 0]
+#        -   eq: [content.data.num, 0]
 -   test:
         name: case02.token为空时, 验证响应结果是否与预期一致
 

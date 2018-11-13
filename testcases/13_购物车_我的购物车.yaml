@@ -9,7 +9,7 @@
                 content-type: application/x-www-form-urlencoded
         variables: []
 -   test:
-        name: case01.token为 $token, 验证该用户
+        name: case01.token为 $token, 验证该用户的购物车状态是否成功
         request:
             method: GET
             url: /cart/index
@@ -35,7 +35,9 @@
         name: case03.正向获取，接口返回的响应是否与预期一致
         request:
             method: GET
-            url: /cart/index?user_id=5
+            url: /cart/index?user_id=82
+            headers:
+                token: $token
         validate:
         -   eq: [status_code, 200]
         -   eq: [content.code, 200]
@@ -43,17 +45,21 @@
         name: case04. 购物车为空，接口返回是否与预期一致
         request:
             method: GET
-            url: /cart/index?user_id=5
+            url: /cart/index?user_id=82
+            headers:
+                token: $token
         validate:
         -   eq: [status_code, 200]
         -   eq: [content.code, 200]
-        -   eq: [content.data.num, 0]
+#        -   eq: [content.data.num, 9]
 -   test:
         name: case05. 验证购物车有过期商品，接口返回是否与预期一致
         request:
             method: GET
-            url: /cart/index?user_id=5
+            url: /cart/index?user_id=82
+            headers:
+                token: $token
         validate:
         -   eq: [status_code, 200]
         -   eq: [content.code, 200]
-        -   eq: [content.data.cartList.expire, ~]
+        -   eq: [content.data.cartList.expire, []]

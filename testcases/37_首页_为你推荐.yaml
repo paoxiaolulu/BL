@@ -17,8 +17,8 @@
                 token: $token
         validate:
         -   eq: [status_code, 200]
-        -   eq: [content.code, 200]
-        -   eq: [content.message, "ok"]
+        -   eq: [content.code, 400]
+        -   eq: [content.message, "页码值未传;分页大小值未传"]
 -   test:
         name: case02.token为空时,请求参数缺失，验证响应结果是否与预期一致
         request:
@@ -28,13 +28,15 @@
                 token: ~
         validate:
         -   eq: [status_code, 200]
-        -   eq: [content.code, 200]
-        -   eq: [content.message, "ok"]
-
+        -   eq: [content.code, 400]
+        -   eq: [content.message, "页码值未传;分页大小值未传"]
 
 -   test:
         name: case03.正向获取,默认593
         request:
+            params:
+                page: 1
+                limit: 6
             method: GET
             url: /main/like
             headers:

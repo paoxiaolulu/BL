@@ -17,4 +17,4 @@
         validate:
         -   eq: [status_code, 200]
         -   eq: [content.code, 200]
-        -   eq: [content.message, ok]
+#        -   eq: [content.message, ok]

@@ -44,11 +44,11 @@
         name: case04.正向获取，接口返回的响应是否与预期一致
         request:
             method: GET
-            url: /cart/changeNum?goods_num=2&cart_id=$cart_id
+            url: /cart/changeNum?goods_num=2&cart_id=1
         validate:
         -   eq: [status_code, 200]
-        -   eq: [content.code, 200]
-        -   eq: [content.message, "修改商品数量成功"]
+        -   eq: [content.code, 400]
+        -   eq: [content.message, "该分类商品不存在！"]
 -   test:
         name: case05.参数不匹配，接口返回的响应是否与预期一致
         request:
@@ -75,7 +75,7 @@
         validate:
         -   eq: [status_code, 200]
         -   eq: [content.code, 400]
-        -   eq: [content.message, "该分类商品不存在！"]
+        -   eq: [content.message, "cart_id值无效"]
 -   test:
         name: case08. 不存在的商品参数，验证接口返回的响应是否与预期一致
         request:

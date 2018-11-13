@@ -45,34 +45,42 @@
         request:
             method: GET
             url: /cart/delete?user_id=5&cart_id=5
+            headers:
+                token: $token
         validate:
         -   eq: [status_code, 200]
-        -   eq: [content.code, 200]
-        -   eq: [content.message, "删除成功"]
+        -   eq: [content.code, 400]
+        -   eq: [content.message, "请选择删除的商品"]
 -   test:
         name: case05.参数不匹配，接口返回的响应是否与预期一致
         request:
             method: GET
             url: /cart/delete?user_id=5&cart_id=7
+            headers:
+                token: $token
         validate:
         -   eq: [status_code, 200]
         -   eq: [content.code, 400]
-        -   eq: [content.message, "删除失败"]
+        -   eq: [content.message, "请选择删除的商品"]
 -   test:
         name: case06.参数user_id为字符串，接口返回的响应是否与预期一致
         request:
             method: GET
             url: /cart/delete?user_id=jj&cart_id=5
+            headers:
+                token: $token
         validate:
         -   eq: [status_code, 200]
         -   eq: [content.code, 400]
-        -   eq: [content.message, "删除失败"]
+        -   eq: [content.message, "请选择删除的商品"]
 -   test:
         name: case07.参数cart_id为字符串，接口返回的响应是否与预期一致
         request:
             method: GET
             url: /cart/delete?user_id=5&cart_id=kk
+            headers:
+                token: $token
         validate:
         -   eq: [status_code, 200]
         -   eq: [content.code, 400]
-        -   eq: [content.message, "删除失败"]
+        -   eq: [content.message, "请选择删除的商品"]

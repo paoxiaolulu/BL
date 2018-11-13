@@ -37,8 +37,7 @@ def setDatabaseAsDefault(DB_NAME):
         # cursor.scroll(10,mode='absolute')
         results = cursor.fetchall()
         return results
-        # for result in results:
-        # print result['hardware_num']
+
 
     except:
         import traceback

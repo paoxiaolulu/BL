@@ -16,8 +16,8 @@
             url: /main/new
         validate:
         -   eq: [status_code, 200]
-        -   eq: [content.code, 200]
-        -   eq: [content.message, ok]
+        -   eq: [content.code, 400]
+        -   eq: [content.message, '页码值未传;分页大小值未传']
 -   test:
         name: case02.请求参数有误
         request:

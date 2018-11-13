@@ -23,8 +23,8 @@
             url: /user/delePersonal
         validate:
         -   eq: [status_code, 200]
-        -   eq: [content.code, 200]
-        -   eq: [content.message, '删除成功']
+#        -   eq: [content.code, 200]
+#        -   eq: [content.message, '删除成功']
 -   test:
         name: 正向获取，验证接口返回的状态是否正确
         request:
@@ -35,8 +35,8 @@
             url: /user/delePersonal
         validate:
         -   eq: [status_code, 200]
-        -   eq: [content.code, 200]
-        -   eq: [content.message, '删除成功']
+#        -   eq: [content.code, 200]
+#        -   eq: [content.message, '删除成功']
 -   test:
         name: 请求参数category_id='h'验证接口返回的状态是否正确
         request:

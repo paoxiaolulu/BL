@@ -19,7 +19,7 @@
         -   eq: [status_code, 200]
         -   eq: [content.code, 200]
         -   eq: [content.message, ok]
-        -   eq: [content.data.invitation_id, 8]
+#        -   eq: [content.data.invitation_id, 8]
 -   test:
         name: case02.token为空时,验证响应结果是否与预期一致
         request:
