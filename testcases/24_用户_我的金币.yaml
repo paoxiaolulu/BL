@@ -1,0 +1,74 @@
+-   config:
+        name: 24_用户_我的金币
+        parameters:
+            - token: ${P(token.csv)}
+            - base_url: ${P(url.csv)}
+        request:
+            base_url: $base_url
+            headers:
+                content-type: application/x-www-form-urlencoded
+        variables: []
+-   test:
+        name: case01.token为 $token, 验证该接口是否成功调起
+        request:
+            method: GET
+            url: /user/myBean
+            headers:
+                token: $token
+        validate:
+        -   eq: [status_code, 200]
+        -   eq: [content.code, 400]
+        -   eq: [content.message, "type值未传"]
+-   test:
+        name: case02.token为空时,验证响应结果是否与预期一致
+        request:
+            params:
+                type: 1
+            method: GET
+            url: /user/myBean
+            headers:
+                token: ~
+        validate:
+        -   eq: [status_code, 200]
+        -   eq: [content.code, 40008]
+        -   eq: [content.message, "无效Token"]
+-   test:
+        name: case03.正向获取,总金币和礼豆密码设置是否可以成功
+        request:
+            params:
+                type: 1
+            method: GET
+            url: /user/myBean
+            headers:
+                token: $token
+        validate:
+        -   eq: [status_code, 200]
+        -   eq: [content.code, 200]
+        -   eq: [content.data.status, 1]
+
+-   test:
+        name: case04.正向获取,验证该测试账户金币获取/扣除记录是否正确
+        request:
+            params:
+                type: 2
+            method: GET
+            url: /user/myBean
+            headers:
+                token: $token
+        validate:
+        -   eq: [status_code, 200]
+        -   eq: [content.code, 200]
+#        -   eq: [content.data.bean_num, 10002.01]
+-   test:
+        name: case05.正向获取,验证该用户的总金币数量是否正确
+        request:
+            params:
+                type: 3
+            method: GET
+            url: /user/myBean
+            headers:
+                token: $token
+        validate:
+        -   eq: [status_code, 200]
+        -   eq: [content.code, 200]
+        -   eq: [content.message, "ok"]

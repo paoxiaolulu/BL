@@ -1,0 +1,35 @@
+-   config:
+        name: 44_用户_删除订单
+        parameters:
+            - token: ${P(token.csv)}
+            - base_url: ${P(url.csv)}
+            - order_id: ['h', '~']  # 错误获取时使用.包括错误请求数据
+        request:
+            base_url: $base_url
+            headers:
+                token: $token
+                content-type: application/x-www-form-urlencoded
+        variables: []
+#            - category_id: $category_id
+-   test:
+        name: 正向获取，验证接口返回的状态是否正确
+        request:
+            method: GET
+            params:
+                order_id: 1
+            url: /user/orderDelete
+        validate:
+        -   eq: [status_code, 200]
+        -   eq: [content.code, 200]
+        -   eq: [content.message, '删除成功']
+-   test:
+        name: 请求参数category_id='h'验证接口返回的状态是否正确
+        request:
+            method: GET
+            params:
+                order_id: $order_id
+            url: /user/orderDelete
+        validate:
+        -   eq: [status_code, 200]
+        -   eq: [content.code, 404]
+#        -   eq: [content.message, ok]

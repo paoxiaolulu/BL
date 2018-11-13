@@ -1,0 +1,35 @@
+-   config:
+        name: 42_热销榜单_更多推荐
+        parameters:
+            - token: ${P(token.csv)}
+            - base_url: ${P(url.csv)}
+            - category_id: ['h', '~']  # 错误获取时使用.包括错误请求数据
+        request:
+            base_url: $base_url
+            headers:
+                token: $token
+                content-type: application/x-www-form-urlencoded
+        variables: []
+#            - category_id: $category_id
+-   test:
+        name: 正向获取，验证接口返回的状态是否正确
+        request:
+            method: GET
+            params:
+                category_id: 1
+            url: /main/rankRecommend
+        validate:
+        -   eq: [status_code, 200]
+        -   eq: [content.code, 200]
+        -   eq: [content.message, ok]
+-   test:
+        name: 请求参数category_id='h'验证接口返回的状态是否正确
+        request:
+            method: GET
+            params:
+                category_id: $category_id
+            url: /main/rankRecommend
+        validate:
+        -   eq: [status_code, 200]
+        -   eq: [content.code, 400]
+#        -   eq: [content.message, ok]

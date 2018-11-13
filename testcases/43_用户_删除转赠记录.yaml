@@ -1,0 +1,49 @@
+-   config:
+        name: 43_用户_删除转赠记录
+        parameters:
+            - token: ${P(token.csv)}
+            - base_url: ${P(url.csv)}
+            - package_id: ['h', '~']  # 错误获取时使用.包括错误请求数据
+            - type: ['h', '3', '~']
+        request:
+            base_url: $base_url
+            headers:
+                token: $token
+                content-type: application/x-www-form-urlencoded
+        variables: []
+-   test:
+        name: 正向获取，验证接口返回的状态是否正确
+        request:
+            method: POST
+            params:
+                package_id: 3
+                type: 1
+            url: /user/transfer
+        validate:
+        -   eq: [status_code, 200]
+        -   eq: [content.code, 200]
+        -   eq: [content.message, ok]
+-   test:
+        name: 正向获取，验证接口返回的状态是否正确
+        request:
+            method: POST
+            params:
+                package_id: 1
+                type: 2
+            url: /user/transfer
+        validate:
+        -   eq: [status_code, 200]
+        -   eq: [content.code, 200]
+        -   eq: [content.message, ok]
+-   test:
+        name: 请求参数 package_id=$package_id, type=$type 验证接口返回的状态是否正确
+        request:
+            method: POST
+            params:
+                package_id: $package_id
+                type: $type
+            url: /user/transfer
+        validate:
+        -   eq: [status_code, 200]
+        -   eq: [content.code, 400]
+#        -   eq: [content.message, ok]

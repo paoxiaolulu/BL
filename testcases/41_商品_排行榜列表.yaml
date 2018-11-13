@@ -3,70 +3,65 @@
         parameters:
             - token: ${P(token.csv)}
             - base_url: ${P(url.csv)}
+            - category_id-type-page-limit: ${P(41.csv)}  # 错误获取时使用.包括错误请求数据
+#            - category_id: ${get_category_id()}
+#            - type: ${get_type()}
+#            - page: ${get_page()}
+#            - limit: ${get_limit()}
         request:
             base_url: $base_url
             headers:
                 token: $token
                 content-type: application/x-www-form-urlencoded
-        variables: []
+        variables:
+            - category_id: $category_id
+            - type: $type
+            - page: $page
+            - limit: $limit
 -   test:
-        name: case01.正向获取首页信息
+        name: 正向获取，请求参数type=1，验证接口返回的状态是否正确
         request:
             method: GET
             params:
-                category_id: $category_id
-                type: $type
-                page: $page
-                limit: $limit
+                category_id: 1
+                type: 1
+                page: 1
+                limit: 1
             url: /main/rank
         validate:
         -   eq: [status_code, 200]
         -   eq: [content.code, 200]
         -   eq: [content.message, ok]
 -   test:
-        name: case02.请求参数category_id为空
+        name: 正向获取，请求参数type=2，验证接口返回的状态是否正确
         request:
             method: GET
             params:
-                category_id:
-                type: $type
-                page: $page
-                limit: $limit
+                category_id: 1
+                type: 2
+                page: 1
+                limit: 1
             url: /main/rank
         validate:
         -   eq: [status_code, 200]
-        -   eq: [content.code, 400]
-#        -   eq: [content.message, ok]
+        -   eq: [content.code, 200]
+        -   eq: [content.message, ok]
 -   test:
-        name: case02.请求参数type为空
+        name: 正向获取，请求参数type=3，验证接口返回的状态是否正确
         request:
             method: GET
             params:
-                category_id: $category_id
-                type:
-                page: $page
-                limit: $limit
+                category_id: 1
+                type: 1
+                page: 1
+                limit: 1
             url: /main/rank
         validate:
         -   eq: [status_code, 200]
-        -   eq: [content.code, 400]
-#        -   eq: [content.message, ok]
+        -   eq: [content.code, 200]
+        -   eq: [content.message, ok]
 -   test:
-        name: case03.请求参数为字符串
-        request:
-            method: GET
-            params:
-                category_id: $category_id
-                type: $type
-                page: $page
-                limit: $limit
-            url: /main/rank
-        validate:
-        -   eq: [status_code, 200]
-        -   eq: [content.code, 400]
-#        -   eq: [content.message, ok]
--   test:
-        name: case04.请求参数数据库中不存在
+        name: 请求参数category_id=$category_id，type=$type,page=$page,limit=$limit,验证接口返回的状态是否正确
         request:
             method: GET
             params:

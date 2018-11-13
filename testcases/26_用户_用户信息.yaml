@@ -40,4 +40,4 @@
         validate:
         -   eq: [status_code, 200]
         -   eq: [content.code, 200]
-        -   eq: [content.data.user_id, "82"]
+        -   eq: [content.data.user_id, 82]

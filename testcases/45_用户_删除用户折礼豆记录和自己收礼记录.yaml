@@ -1,0 +1,51 @@
+-   config:
+        name: 45_用户_删除用户折礼豆记录和自己收礼记录
+        parameters:
+            - token: ${P(token.csv)}
+            - base_url: ${P(url.csv)}
+            - delivery_id: ['h', '~']  # 错误获取时使用.包括错误请求数据
+            - type: ['3', '', 'h']  # 错误获取时使用.包括错误请求数据
+
+        request:
+            base_url: $base_url
+            headers:
+                token: $token
+                content-type: application/x-www-form-urlencoded
+        variables: []
+#            - category_id: $category_id
+-   test:
+        name: 正向获取，验证接口返回的状态是否正确
+        request:
+            method: POST
+            data:
+                delivery_id: 1
+                type: 1
+            url: /user/delePersonal
+        validate:
+        -   eq: [status_code, 200]
+        -   eq: [content.code, 200]
+        -   eq: [content.message, '删除成功']
+-   test:
+        name: 正向获取，验证接口返回的状态是否正确
+        request:
+            method: POST
+            data:
+                delivery_id: 1
+                type: 2
+            url: /user/delePersonal
+        validate:
+        -   eq: [status_code, 200]
+        -   eq: [content.code, 200]
+        -   eq: [content.message, '删除成功']
+-   test:
+        name: 请求参数category_id='h'验证接口返回的状态是否正确
+        request:
+            method: POST
+            data:
+                delivery_id: $delivery_id
+                type: $delivery_id
+            url: /user/delePersonal
+        validate:
+        -   eq: [status_code, 200]
+        -   eq: [content.code, 400]
+#        -   eq: [content.message, ok]
